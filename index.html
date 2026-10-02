@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MOTD Maker</title>
+  <meta name="description" content="Design a colored Minecraft server MOTD with a live server-list preview, then copy it straight into server.properties.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%23202020'/><rect x='3' y='4' width='10' height='2' fill='%2355ff55'/><rect x='3' y='9' width='7' height='2' fill='%23ffaa00'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>MOTD Maker</h1>
+      <p class="lede">Make your server stand out in the multiplayer list. Click a color, type, and copy the result into <code>server.properties</code>.</p>
+    </header>
+
+    <section class="card">
+      <h2>Preview</h2>
+      <div class="serverlist" id="preview">
+        <div class="entry">
+          <label class="icon" title="Click to use your own icon">
+            <img id="icon-img" alt="" hidden>
+            <span id="icon-ph">Click to add<br>an icon</span>
+            <input id="icon-file" type="file" accept="image/*" hidden>
+          </label>
+          <div class="body">
+            <div class="row">
+              <input id="name" class="name" value="My Minecraft Server" spellcheck="false" aria-label="Server name (only shown in the preview)">
+              <span class="players"><span id="pc">12</span>/<span>100</span></span>
+              <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            </div>
+            <div class="motd" id="motd-1"></div>
+            <div class="motd" id="motd-2"></div>
+          </div>
+        </div>
+      </div>
+      <a id="icon-dl" class="small" hidden download="server-icon.png">Download as server-icon.png (64×64)</a>
+    </section>
+
+    <section class="card">
+      <h2>Edit</h2>
+      <div class="toolbar" role="toolbar" aria-label="Formatting">
+        <div class="swatches" id="swatches"></div>
+        <div class="fmt">
+          <button type="button" data-code="l" title="Bold (&l)"><b>B</b></button>
+          <button type="button" data-code="o" title="Italic (&o)"><i>I</i></button>
+          <button type="button" data-code="n" title="Underline (&n)"><u>U</u></button>
+          <button type="button" data-code="m" title="Strikethrough (&m)"><s>S</s></button>
+          <button type="button" data-code="k" title="Scrambled (&k)">?#</button>
+          <button type="button" data-code="r" title="Reset (&r)">Reset</button>
+        </div>
+      </div>
+      <p class="muted small">Click where you want the color in a line, then click a color. Colors and styles use <code>&amp;</code> codes, like <code>&amp;a</code> for green. A color turns off bold and the other styles, just like in Minecraft.</p>
+
+      <div class="line">
+        <label for="l1">Line 1</label>
+        <input id="l1" class="code" spellcheck="false" value="&amp;6&amp;l✦ My Server &amp;r&amp;7| &amp;aSurvival &amp;7& &amp;bSkyBlock">
+        <div class="meta"><span id="w1" class="width"></span><button type="button" class="ghost" data-center="l1">Center</button></div>
+      </div>
+      <div class="line">
+        <label for="l2">Line 2</label>
+        <input id="l2" class="code" spellcheck="false" value="&amp;eNew update! &amp;fJoin now at &amp;bplay.example.net">
+        <div class="meta"><span id="w2" class="width"></span><button type="button" class="ghost" data-center="l2">Center</button></div>
+      </div>
+
+      <div class="templates">
+        <span class="muted small">Start from:</span>
+        <button type="button" class="chip" data-t="0">Classic</button>
+        <button type="button" class="chip" data-t="1">Spooky</button>
+        <button type="button" class="chip" data-t="2">Minigames</button>
+        <button type="button" class="chip" data-t="3">Friends SMP</button>
+        <button type="button" class="chip" data-t="4">Clear</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Copy it</h2>
+      <div class="out">
+        <div class="out-head"><b>server.properties</b><button type="button" class="copy" data-copy="o-props">Copy</button></div>
+        <p class="muted small">Open <code>server.properties</code> in your server folder, replace the <code>motd=</code> line with this, save, and restart the server.</p>
+        <pre id="o-props"></pre>
+      </div>
+      <div class="out">
+        <div class="out-head"><b>With &amp; codes</b><button type="button" class="copy" data-copy="o-amp">Copy</button></div>
+        <p class="muted small">For plugins that ask for &amp; codes (like many MOTD and Essentials plugins).</p>
+        <pre id="o-amp"></pre>
+      </div>
+      <div class="out">
+        <div class="out-head"><b>With § codes</b><button type="button" class="copy" data-copy="o-sect">Copy</button></div>
+        <p class="muted small">Raw text with the section sign, for configs that want §.</p>
+        <pre id="o-sect"></pre>
+      </div>
+      <p class="small"><a id="share" href="#">Copy a link to this MOTD</a></p>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    Made by <a href="https://github.com/Hybridash">Hybridash</a> · <a href="https://github.com/Hybridash/MOTDMaker">Source</a> · Check a live server's MOTD with <a href="https://hybridash.github.io/ServerStatus/">Server Status</a>
+  </footer>
+
+  <script src="src/motd.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>
